@@ -1,4 +1,1 @@
-/* Capability Garden — core styles (full file uploading next) */
-:root{--bg:#091318;--ink:#f2ece4;--muted:#c9c6bf;--leaf:#bddebc;--clay:#e6aa91;--bark:#71463a}
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,serif}
-a{color:var(--clay)}.wrap{max-width:1120px;margin:0 auto;padding:0 20px}.site-head{padding:16px 0;border-bottom:1px solid #1e2a30}.brand{display:inline-flex;gap:8px;align-items:center;text-decoration:none;color:var(--ink);font-weight:700}.nav a{margin:0 10px;text-decoration:none;color:var(--muted)}.btn{display:inline-flex;gap:8px;align-items:center;padding:10px 14px;border:1px solid #2a3a42;border-radius:999px;text-decoration:none;color:var(--ink)}.btn-primary{background:var(--clay);color:#091318;border-color:transparent}.hero{padding:48px 0}.lede{color:var(--muted);max-width:50ch;line-height:1.5}.node.live{outline:2px solid var(--leaf)}.node.locked{opacity:.55}.pill.open{color:var(--leaf)}.pill.soon{color:var(--muted)}
+@import url("site-b.css");
