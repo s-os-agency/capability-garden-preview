@@ -1,3 +1,3 @@
-# Capability Garden Preview
+# S/ Capability Garden — preview
 
-Static Level 1 launch redesign for S/ Capability Garden.
+Static preview matching Figma frame 1:2. Live: https://capability-garden-preview.vercel.app
