@@ -1,2 +1,3 @@
-# capability-garden-preview
-S/ Capability Garden Level 1 launch redesign — clickable preview for review. Static site.
+# Capability Garden Preview
+
+Static Level 1 launch redesign for S/ Capability Garden.
