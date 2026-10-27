@@ -66,12 +66,24 @@
       const lum=c=>{const [r,g,bb]=c.map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4));return .2126*r+.7152*g+.0722*bb};
       const a=lum(hex($('[name=fg]',b).value)),c=lum(hex($('[name=bg]',b).value));const r=(Math.max(a,c)+.05)/(Math.min(a,c)+.05);
       const ok=(t)=>r>=t?'passes':'fails';return `Contrast ratio: <b>${r.toFixed(2)}:1</b>\nNormal text AA (4.5): ${ok(4.5)} · AAA (7): ${ok(7)}\nLarge text AA (3): ${ok(3)}`},
-    csv(b){const rows=$('textarea',b).value.trim().split(/\r?\n/).filter(Boolean).map(r=>r.split(','));
+    csv(b){const input=$('textarea',b).value;
+      if(!input.trim())return 'Paste a header row and at least one data row.';
+      const rows=[];let row=[],field='',quoted=false,closed=false;
+      for(let i=0;i<input.length;i++){const ch=input[i];
+        if(quoted){if(ch==='"'&&input[i+1]==='"'){field+='"';i++}else if(ch==='"'){quoted=false;closed=true}else field+=ch}
+        else if(ch==='"'&&field===''&&!closed){quoted=true}
+        else if(ch===','){row.push(field);field='';closed=false}
+        else if(ch==='\n'||ch==='\r'){if(ch==='\r'&&input[i+1]==='\n')i++;row.push(field);if(row.some(c=>c.trim()))rows.push(row);row=[];field='';closed=false}
+        else if(closed&&ch!==' '&&ch!=='\t')return 'Invalid CSV: characters after a closing quote.';
+        else if(!closed)field+=ch;
+      }
+      if(quoted)return 'Invalid CSV: an unclosed quoted field.';
+      row.push(field);if(row.some(c=>c.trim()))rows.push(row);
       if(rows.length<2)return 'Paste a header row and at least one data row.';
       const w=rows[0].length;const bad=rows.map((r,i)=>r.length!==w?i+1:0).filter(Boolean);
       let empty=0;rows.slice(1).forEach(r=>r.forEach(c=>{if(!c.trim())empty++}));
-      const keys=rows.slice(1).map(r=>r.join(',').trim());const dup=keys.length-new Set(keys).size;
-      return `Rows: <b>${rows.length-1}</b> · Columns: <b>${w}</b>\nEmpty cells: <b>${empty}</b>\nDuplicate records: <b>${dup}</b>\nRows with a different width: <b>${bad.length?bad.join(', '):'none'}</b>`},
+      const keys=rows.slice(1).map(r=>JSON.stringify(r.map(c=>c.trim())));const dup=keys.length-new Set(keys).size;
+      return `Rows: <b>${rows.length-1}</b> · Columns: <b>${w}</b>\\nEmpty cells: <b>${empty}</b>\\nDuplicate records: <b>${dup}</b>\\nRows with a different width: <b>${bad.length?bad.join(', '):'none'}</b>`},
     schedule(b){const topics=$('textarea',b).value.split(/\n/).map(s=>s.trim()).filter(Boolean);const start=new Date($('[name=start]',b).value);const every=parseInt($('[name=every]',b).value)||7;
       if(!topics.length||isNaN(start))return 'Add at least one topic and a start date.';
       return '<table><tr><th>#</th><th>Date</th><th>Topic</th></tr>'+topics.map((t,i)=>{const d=new Date(start);d.setDate(d.getDate()+i*every);return `<tr><td>${i+1}</td><td>${d.toDateString().slice(4)}</td><td>${esc(t)}</td></tr>`}).join('')+'</table>'},
