@@ -83,7 +83,7 @@
       const w=rows[0].length;const bad=rows.map((r,i)=>r.length!==w?i+1:0).filter(Boolean);
       let empty=0;rows.slice(1).forEach(r=>r.forEach(c=>{if(!c.trim())empty++}));
       const keys=rows.slice(1).map(r=>JSON.stringify(r.map(c=>c.trim())));const dup=keys.length-new Set(keys).size;
-      return `Rows: <b>${rows.length-1}</b> · Columns: <b>${w}</b>\\nEmpty cells: <b>${empty}</b>\\nDuplicate records: <b>${dup}</b>\\nRows with a different width: <b>${bad.length?bad.join(', '):'none'}</b>`},
+      return `Rows: <b>${rows.length-1}</b> · Columns: <b>${w}</b>\nEmpty cells: <b>${empty}</b>\nDuplicate records: <b>${dup}</b>\nRows with a different width: <b>${bad.length?bad.join(', '):'none'}</b>`},
     schedule(b){const topics=$('textarea',b).value.split(/\n/).map(s=>s.trim()).filter(Boolean);const start=new Date($('[name=start]',b).value);const every=parseInt($('[name=every]',b).value)||7;
       if(!topics.length||isNaN(start))return 'Add at least one topic and a start date.';
       return '<table><tr><th>#</th><th>Date</th><th>Topic</th></tr>'+topics.map((t,i)=>{const d=new Date(start);d.setDate(d.getDate()+i*every);return `<tr><td>${i+1}</td><td>${d.toDateString().slice(4)}</td><td>${esc(t)}</td></tr>`}).join('')+'</table>'},
